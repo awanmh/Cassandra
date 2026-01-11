@@ -1,0 +1,48 @@
+{
+  "WordPress": {
+    "description": "CMS Framework",
+    "commands": [
+      "nuclei -t wordpress/ -target {target} -silent",
+      "wpscan --url {target} --random-user-agent --disable-tls-checks"
+    ],
+    "risk_level": "medium"
+  },
+  "Laravel": {
+    "description": "PHP Framework",
+    "commands": ["nuclei -t laravel/ -target {target} -silent"],
+    "checks": [".env", "debug_mode"],
+    "risk_level": "medium"
+  },
+  "Spring Boot": {
+    "description": "Java Framework",
+    "commands": ["nuclei -t springboot/ -target {target} -silent"],
+    "endpoints": ["/actuator", "/heapdump", "/env"],
+    "risk_level": "high"
+  },
+  "Django": {
+    "description": "Python Framework",
+    "commands": ["nuclei -t django/ -target {target} -silent"],
+    "checks": ["debug_toolbar", "admin_panel"],
+    "risk_level": "medium"
+  },
+  "React": {
+    "description": "JS Library",
+    "commands": ["python -m modules.js_scanner --target {target}"],
+    "risk_level": "low"
+  },
+  "Vue.js": {
+    "description": "JS Framework",
+    "commands": ["python -m modules.js_scanner --target {target}"],
+    "risk_level": "low"
+  },
+  "Drupal": {
+    "description": "CMS Framework",
+    "commands": ["nuclei -t drupal/ -target {target} -silent"],
+    "risk_level": "medium"
+  },
+  "Joomla": {
+    "description": "CMS Framework",
+    "commands": ["nuclei -t joomla/ -target {target} -silent"],
+    "risk_level": "medium"
+  }
+}

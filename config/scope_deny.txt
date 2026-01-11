@@ -1,0 +1,6 @@
+# Add domains or patterns to strictly AVOID scanning.
+google.com
+gov.id
+mil.id
+corp.internal
+test.com

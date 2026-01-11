@@ -1,30 +1,49 @@
+import os
 import requests
 import logging
-from config.settings import settings
+from datetime import datetime
 
-def send_alert(title, vulnerability_type, proof, risk_level):
+logger = logging.getLogger(__name__)
+
+def send_discord_alert(title: str, description: str, risk_level: str = "INFO"):
     """
-    Sends an alert to Discord via Webhook.
+    Sends a formatted alert to Discord via Webhook.
     """
-    if not settings.DISCORD_WEBHOOK_URL:
-        logging.warning("Discord Webhook URL not set. Skipping notification.")
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    
+    if not webhook_url:
+        logger.warning("No DISCORD_WEBHOOK_URL set. Skipping alert.")
         return
 
-    color = 16711680 if risk_level.upper() in ["HIGH", "CRITICAL"] else 3447003 # Red or Blue
-
-    embed = {
-        "title": f"[{risk_level}] {title}",
-        "description": f"**Type:** {vulnerability_type}\n**Proof:** `{proof}`",
-        "color": color,
-        "footer": {"text": "Cassandra Ultimate Scanner"}
+    # Color codes (Decimal)
+    colors = {
+        "CRITICAL": 15548997, # Red
+        "HIGH": 15158332,     # Orange
+        "MEDIUM": 16776960,   # Yellow
+        "LOW": 3447003,       # Blue
+        "INFO": 9807270       # Grey
     }
     
+    color = colors.get(risk_level.upper(), 9807270)
+
     payload = {
-        "username": "Cassandra Bot",
-        "embeds": [embed]
+        "embeds": [
+            {
+                "title": f"🚨 {title}",
+                "description": description,
+                "color": color,
+                "footer": {
+                    "text": f"Cassandra 2.1 • {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                }
+            }
+        ]
     }
 
     try:
-        requests.post(settings.DISCORD_WEBHOOK_URL, json=payload, timeout=5)
+        response = requests.post(webhook_url, json=payload, timeout=10)
+        if response.status_code == 204:
+            logger.info("Discord alert sent successfully.")
+        else:
+            logger.error(f"Failed to send Discord alert: {response.text}")
     except Exception as e:
-        logging.error(f"Failed to send Discord alert: {e}")
+        logger.error(f"Error sending Discord alert: {e}")

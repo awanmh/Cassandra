@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  cassandra-app:
+    build: .
+    container_name: cassandra_core
+    depends_on:
+      - postgres-db
+      - redis-queue
+    environment:
+      - POSTGRES_SERVER=postgres-db
+      - POSTGRES_USER=${POSTGRES_USER:-cassandra}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secretphrasesecure}
+      - POSTGRES_DB=${POSTGRES_DB:-cassandra_db}
+      - REDIS_HOST=redis-queue
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./logs:/app/logs
+    ports:
+      - "8501:8501" # Streamlit Dashboard
+    command: tail -f /dev/null # Keep alive for manual exec or use specific command
+
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: cassandra_db
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-cassandra}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secretphrasesecure}
+      - POSTGRES_DB=${POSTGRES_DB:-cassandra_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis-queue:
+    image: redis:7-alpine
+    container_name: cassandra_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
