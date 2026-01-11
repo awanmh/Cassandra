@@ -1,0 +1,103 @@
+Program: TrueLayer Bug Bounty Program (Intigriti)
+
+Description:
+TrueLayer provides APIs for financial data and payment initiation services. We build on top of Open Banking and PSD2 standards.
+
+Rules of Engagement:
+1. Automated tooling is allowed but limited to max 10 requests/sec.
+2. Respect the scope.
+3. Use the Sandbox environment for testing to avoid KYC checks.
+4. Do not test third-party contact forms.
+
+REQUIRED HEADERS (CRITICAL):
+You MUST add this header to all requests:
+X-Intigriti-Username: awanmh
+
+IN-SCOPE ASSETS (Targets):
+
+Tier 1 (Critical Priority):
+- api.truelayer.com
+- api.truelayer-sandbox.com
+- api.mtls.truelayer.com
+- api.mtls.truelayer-sandbox.com
+- auth.truelayer.com
+- auth.truelayer-sandbox.com
+- auth.mtls.truelayer.com
+- auth.mtls.truelayer-sandbox.com
+- app.truelayer.com
+- app.truelayer-sandbox.com
+- login-api.truelayer.com
+- login-api.truelayer-sandbox.com
+- login.truelayer.com
+- login.truelayer-sandbox.com
+- onboarding-api.truelayer.com
+- pay-api.truelayer.com
+- pay-api.truelayer-sandbox.com
+- pay.truelayer.com
+- pay.truelayer-sandbox.com
+- paydirect.truelayer.com
+- paydirect.truelayer-sandbox.com
+- payment.truelayer.com
+- payment.truelayer-sandbox.com
+- payments-experience-api.truelayer.com
+- payments-experience-api.truelayer-sandbox.com
+- user-authentication-api.truelayer.com
+- user-authentication-api.truelayer-sandbox.com
+- users-api.truelayer.com
+
+Tier 2 (High Priority):
+- console-backend.truelayer.com
+- console-backend.truelayer-sandbox.com
+- console.truelayer.com
+- console.truelayer-sandbox.com
+- sftp.reports.truelayer.com
+- shopify-admin.truelayer.com
+- shop-pay-app-api.truelayer.com
+- webhooks.truelayer.com
+- webhooks.truelayer-sandbox.com
+- SDKs (Java, PHP, Magento, WooCommerce) - Source Code Review Only
+
+Tier 3 (Medium Priority - Wildcards):
+- *.truelayer.cloud
+- *.truelayer.com
+- *.truelayer.io
+
+OUT-OF-SCOPE ASSETS (DO NOT ATTACK):
+- banks.truelayer.com
+- careers.truelayer.com
+- docs.truelayer.com
+- docs.houston.truelayer.com
+- https://truelayer.com/contact/ (Contact Form)
+- index.truelayer.com
+- info.truelayer.com
+- signin.truelayer.com
+- support.truelayer.com
+- status.truelayer.com
+- truelayer.zendesk.com
+
+EXCLUDED VULNERABILITIES (Do Not Report):
+- API key disclosure without proven business impact
+- Wordpress usernames disclosure
+- Pre-Auth Account takeover/OAuth squatting
+- Self-XSS that cannot be used to exploit other users
+- CORS misconfiguration on non-sensitive endpoints
+- Missing cookie flags / security headers
+- CSRF with no or low impact
+- Presence of autocomplete attribute on web forms
+- Reverse tabnabbing
+- Rate-limit bypassing
+- Password complexity/expiration policies
+- Clickjacking without proven impact
+- CSV Injection
+- Sessions not being invalidated (logout, 2FA)
+- Email spoofing (SPF/DMARC/DKIM)
+- Username/email enumeration
+- DoS/DDoS attacks
+- Vulnerabilities on out-of-date software (unless <14 days from patch)
+- Blind SSRF without proven business impact (pingbacks are not sufficient)
+
+SPECIAL INSTRUCTIONS:
+- Use the sandbox environment for testing (domains containing -sandbox).
+- Use your @intigriti.me email address for registration on the Console application.
+- Credentials: You can self-register on the Console application.
+- Mock Bank: In sandbox, there is a mock bank available.
