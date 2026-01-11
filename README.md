@@ -1,4 +1,4 @@
-# Cassandra Ultimate
+# Cassandra
 
 ![Badge Status](https://img.shields.io/badge/Status-Active-green) ![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue) ![Go Version](https://img.shields.io/badge/Go-1.21%2B-cyan)
 
